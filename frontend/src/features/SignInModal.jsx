@@ -2,6 +2,7 @@ import { useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useAuth } from '../hooks/useAuth';
 import GoogleIcon from '../assets/google-icon.svg';
+import GithubIcon from '../assets/github-icon.svg';
 import styles from '../css/Modal.module.css';
 
 export default function SignInModal({ onClose, onSwitchToSignUp }) {
@@ -9,7 +10,7 @@ export default function SignInModal({ onClose, onSwitchToSignUp }) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login, signInWithGoogle } = useAuth();
+  const { login, signInWithGoogle, signInWithGithub } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,6 +41,19 @@ export default function SignInModal({ onClose, onSwitchToSignUp }) {
     } catch (error) {
       setError('Failed to sign in with Google. Please try again.');
       console.error('Google sign in error:', error);
+    }
+    setLoading(false);
+  };
+
+  const handleGithubSignIn = async () => {
+    try {
+      setError('');
+      setLoading(true);
+      await signInWithGithub();
+      onClose();
+    } catch (error) {
+      setError('Failed to sign in with GitHub. Please try again.');
+      console.error('GitHub sign in error:', error);
     }
     setLoading(false);
   };
@@ -114,6 +128,15 @@ export default function SignInModal({ onClose, onSwitchToSignUp }) {
         >
           <img src={GoogleIcon} alt="Google" className={styles.googleIcon} />
           {loading ? 'Signing In...' : 'Continue with Google'}
+        </button>
+
+        <button
+          onClick={handleGithubSignIn}
+          disabled={loading}
+          className={styles.githubButton}
+        >
+          <img src={GithubIcon} alt="GitHub" className={styles.githubIcon} />
+          {loading ? 'Signing In...' : 'Continue with GitHub'}
         </button>
 
         <div className={styles.switchText}>

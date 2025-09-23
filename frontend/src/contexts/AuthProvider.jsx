@@ -6,6 +6,7 @@ import {
   signOut, 
   onAuthStateChanged,
   GoogleAuthProvider,
+  GithubAuthProvider,
   signInWithPopup
 } from 'firebase/auth';
 import { AuthContext } from './AuthContext';
@@ -31,6 +32,11 @@ export function AuthProvider({ children }) {
     return signInWithPopup(auth, provider);
   }
 
+  function signInWithGithub() {
+    const provider = new GithubAuthProvider();
+    return signInWithPopup(auth, provider);
+  }
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
@@ -45,7 +51,8 @@ export function AuthProvider({ children }) {
     signup,
     login,
     logout,
-    signInWithGoogle
+    signInWithGoogle,
+    signInWithGithub
   };
 
   return (
