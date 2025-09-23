@@ -3,7 +3,7 @@ import { AuthProvider } from './contexts/AuthProvider';
 import Header from './shared/Header';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
-import ProtectedRoute from './shared/ProtectedRoute';
+import Editor from './pages/MainEditor';
 import styles from './css/App.module.css';
 
 function AppLayout() {
@@ -17,19 +17,6 @@ function AppLayout() {
   );
 }
 
-function DashboardLayout() {
-  return (
-    <div className={styles.dashboardLayout}>
-      <Header />
-      <main>
-        <ProtectedRoute>
-          <Dashboard />
-        </ProtectedRoute>
-      </main>
-    </div>
-  );
-}
-
 function App() {
   const router = createBrowserRouter([
     {
@@ -38,7 +25,11 @@ function App() {
     },
     {
       path: "/dashboard",
-      element: <DashboardLayout />
+      element: <Dashboard />
+    },
+    {
+      path: "/editor",
+      element: <Editor />
     }
   ]);
 

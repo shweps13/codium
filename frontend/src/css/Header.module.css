@@ -4,6 +4,7 @@
   align-items: center;
   padding: 1rem 2rem;
   border-bottom: 1px solid #fff;
+  color: #fff;
 }
 
 .mainHeader h1 {
@@ -11,4 +12,9 @@
   font-weight: 600;
   color: #fff;
   margin: 0;
+}
+
+.navLinks {
+  display: flex;
+  gap: 1rem;
 }

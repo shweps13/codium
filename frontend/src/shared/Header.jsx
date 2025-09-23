@@ -30,7 +30,7 @@ function Header() {
       
       <nav>
         {currentUser ? (
-          <div>
+          <div className={styles.navLinks}>
             <span>
               Welcome, {currentUser.email}
             </span>
@@ -38,6 +38,11 @@ function Header() {
               to="/dashboard" 
             >
               Dashboard
+            </Link>
+            <Link 
+              to="/editor" 
+            >
+              Editor
             </Link>
             <button
               onClick={handleLogout}              
