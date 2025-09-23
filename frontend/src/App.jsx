@@ -1,22 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
 import './App.css'
+
+import { auth } from "./utils/firebase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 
 function App() {
   const [count, setCount] = useState(0)
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsub();
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
+      <div>{user ? (
+        <>
+          <h1>Welcome {user.email}</h1>
+          <button onClick={() => signOut(auth)}>Logout</button>
+        </>
+      ) : (
+        <h1>Please log in</h1>
+      )}</div>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
