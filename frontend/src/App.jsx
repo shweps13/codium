@@ -1,43 +1,52 @@
-import { useState, useEffect } from 'react'
-import './App.css'
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router';
+import { AuthProvider } from './contexts/AuthProvider';
+import Header from './shared/Header';
+import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
+import ProtectedRoute from './shared/ProtectedRoute';
+import styles from './css/App.module.css';
 
-import { auth } from "./utils/firebase";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+function AppLayout() {
+  return (
+    <div className={styles.appLayout}>
+      <Header />
+      <main>
+        <Home />
+      </main>
+    </div>
+  );
+}
+
+function DashboardLayout() {
+  return (
+    <div className={styles.dashboardLayout}>
+      <Header />
+      <main>
+        <ProtectedRoute>
+          <Dashboard />
+        </ProtectedRoute>
+      </main>
+    </div>
+  );
+}
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
-    return () => unsub();
-  }, []);
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <AppLayout />
+    },
+    {
+      path: "/dashboard",
+      element: <DashboardLayout />
+    }
+  ]);
 
   return (
-    <>
-      <div>{user ? (
-        <>
-          <h1>Welcome {user.email}</h1>
-          <button onClick={() => signOut(auth)}>Logout</button>
-        </>
-      ) : (
-        <h1>Please log in</h1>
-      )}</div>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  );
 }
 
 export default App
