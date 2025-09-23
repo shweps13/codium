@@ -1,0 +1,27 @@
+{
+  "name": "codium",
+  "version": "1.0.0",
+  "description": "Online code editor that multiple users can collaborate on in real time.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shweps13/codium.git"
+  },
+  "keywords": [
+    "code",
+    "editor",
+    "collaborative",
+    "real-time",
+    "websocket"
+  ],
+  "author": "shweps13",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/shweps13/codium/issues"
+  },
+  "homepage": "https://github.com/shweps13/codium#readme"
+}

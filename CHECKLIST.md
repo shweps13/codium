@@ -1,0 +1,137 @@
+# Final Project Checklist
+
+## General
+- [ ] Uses a public GitHub repo.
+- [ ] Scaffolded using **Vite** with the `react` template (not `react-ts`, `react-swc`, or `react-swc-ts`).
+- [ ] Uses **NPM**.
+- [ ] Installs and uses dependencies: `react-router`.
+
+---
+
+## Coding Practices
+- [ ] Neat and consistent formatting (Prettier recommended).
+- [ ] Only 1 component per file unless using Styled-Components.
+- [ ] Component names in **PascalCase**; filenames match component names.
+- [ ] Minimize implicit type coercion.
+- [ ] Favor functional approaches (e.g., `map` instead of `forEach`).
+- [ ] Comments: concise, only for tricky code. Remove commented-out code/personal notes.
+- [ ] Utility/helper-only files should have `.js` extension.
+
+---
+
+## Project Structure
+
+### Root directory must contain:
+- [ ] `src/`
+- [ ] `.env.local.example` (example values for env vars).
+- [ ] `.gitignore` (includes at least):
+  - `node_modules`
+  - `dist`
+  - `*.local` (covers `.env.local`)
+  - `.DS_Store`
+- [ ] `index.html` (only `<head>` modifications allowed).
+- [ ] `package.json`
+- [ ] `package-lock.json`
+- [ ] `vite.config.js`
+- [ ] `README.md` with:
+  - [ ] Project title & description.
+  - [ ] Details on added dependencies (esp. DOM-manipulating ones).
+  - [ ] Install & run instructions.
+  - [ ] API connection details (mention if credentials/services needed).
+
+### Root directory must NOT contain:
+- [ ] `node_modules/`
+- [ ] `.env.local` or other sensitive files.
+- [ ] Component files except `App.jsx` and `main.jsx`.
+- [ ] Yarn artifacts.
+- [ ] `public/` (except favicon).
+
+### Inside `src/`:
+- [ ] `assets/` (imagery, fonts, etc.).
+- [ ] `features/` (≥ 2 features).
+  - If feature has >1 component → place them in a subfolder.
+- [ ] `pages/` (≥ 3 page components).
+- [ ] `shared/` (≥ 2 reusable components).
+- [ ] `App.css`
+- [ ] `App.jsx`
+- [ ] `main.jsx`
+- [ ] Additional dirs allowed for organization.
+
+---
+
+## Data Schema
+- [ ] Create ≥1 object/array of objects for state.
+- [ ] Use simplest data structures possible.
+
+---
+
+## React Concepts
+- [ ] Browser page should never refresh on user interaction.
+- [ ] All components functional (no classes).
+- [ ] Use only React-compatible props.
+- [ ] Never mutate state.
+- [ ] Components return valid JSX.
+- [ ] No direct DOM manipulation (except via 3rd-party libs; note in README).
+- [ ] External data communication is async.
+
+### Must include:
+- [ ] 1 component with `children` prop.
+- [ ] 2 reusable components (≥2 HTML elements/subcomponents, use props).
+- [ ] 4 conditionally rendered components/elements.
+- [ ] 1 controlled form with ≥1 validated field.
+- [ ] 2 `useEffect` calls (with cleanup if needed).
+- [ ] 1 `useCallback`.
+- [ ] Accurate dependency arrays in hooks.
+- [ ] Arrays of rendered components use **unique keys** (not array indices).
+
+---
+
+## React Router
+- [ ] Install `react-router`.
+- [ ] Wrap `App` with `BrowserRouter` in `main.jsx`.
+- [ ] Include ≥2 routes.
+- [ ] Route elements use components from `pages/`.
+- [ ] Wildcard route for "Not Found" page.
+- [ ] Use `NavLink` for global navigation (can use `Link` elsewhere).
+
+---
+
+## Behavior
+
+### Startup
+- [ ] Installs without errors (except minor package updates).
+- [ ] Starts without errors.
+- [ ] On load: performs network request or interacts with browser storage.
+- [ ] Loading status shown to user.
+- [ ] Reviewers can access resources with minimal setup.
+- [ ] APIs: publicly accessible (anonymous or free signup).
+- [ ] If using local server:
+  - [ ] Must be Node.js.
+  - [ ] Runs error-free.
+  - [ ] Include repo link + setup instructions in README.
+
+### Functionality
+- [ ] No uncaught errors (warnings acceptable).
+- [ ] App never crashes.
+- [ ] `StrictMode` enabled in `main.jsx`.
+- [ ] Form inputs/labels properly associated.
+- [ ] Catch & show foreseeable errors in UI.
+- [ ] App supports CRUD operations:
+  - [ ] Create
+  - [ ] Read
+  - [ ] Update
+  - [ ] Delete (optional)
+- [ ] Persist data via API, LocalStorage, or IndexedDB.
+
+---
+
+## Appearance & UX
+- [ ] Styling via CSS, CSS Modules, or Styled-Components.
+- [ ] No component/theming libs (exceptions for notifications with approval).
+- [ ] Consistent theming/layouts across pages.
+- [ ] Different font for headings vs. body text.
+- [ ] Legible interface text.
+- [ ] Images include descriptive `alt` text (except decorative).
+- [ ] Any sounds must be mute-able in UI.
+- [ ] Active `NavLink` visually distinct from inactive ones.
+- [ ] Assets optimized (e.g., no oversized images).
