@@ -2,12 +2,12 @@ import Header from '../shared/Header';
 import ProtectedRoute from '../shared/ProtectedRoute';
 import Editor from '../components/Editor';
 
-function MainEditor() {
+function MainEditor({ roomId, getToken }) {
     return (
         <>
             <Header />
             <ProtectedRoute>
-                <Editor />
+                <Editor roomId={roomId} getToken={getToken} />
             </ProtectedRoute>
         </>
     )
