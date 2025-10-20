@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useRef } from "react";
+import React, { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { materialDarkInit } from "@uiw/codemirror-theme-material";
@@ -8,6 +8,8 @@ import { yCollab, yUndoManagerKeymap } from "y-codemirror.next";
 import * as Y from "yjs";
 import { keymap } from "@codemirror/view";
 import { defaultKeymap, history, historyKeymap } from "@codemirror/commands";
+import { getFileByRoomId, updateFile } from '../services/fileService';
+import { useToast } from '../hooks/useToast';
 import styles from '../css/Editor.module.css';
 
 const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:1234';
@@ -16,7 +18,40 @@ function Editor({ roomId = 'demo', getToken }) {
     const [status, setStatus] = useState("connecting");
     const [provider, setProvider] = useState(null);
     const [ytext, setYtext] = useState(null);
+    const [fileError, setFileError] = useState(null);
+    const [fileId, setFileId] = useState(null);
+    const [isSaving, setIsSaving] = useState(false);
+    const [lastSaved, setLastSaved] = useState(null);
     const isConnectingRef = useRef(false);
+    const { success, error: showError } = useToast();
+
+    const saveFile = useCallback(async () => {
+        if (!fileId || !ytext || isSaving) return;
+        
+        setIsSaving(true);
+        try {
+            const content = ytext.toString();
+            await updateFile(fileId, { content });
+            setLastSaved(new Date());
+            success('File saved successfully');
+        } catch (error) {
+            console.error('Error saving file:', error);
+            showError('Failed to save file. Please try again.');
+        }
+        setIsSaving(false);
+    }, [fileId, ytext, isSaving, success, showError]);
+
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if ((event.ctrlKey || event.metaKey) && event.key === 's') {
+                event.preventDefault();
+                saveFile();
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+        return () => document.removeEventListener('keydown', handleKeyDown);
+    }, [saveFile]);
 
     useEffect(() => {
         let isMounted = true;
@@ -25,6 +60,18 @@ function Editor({ roomId = 'demo', getToken }) {
         const initializeProvider = async () => {
             if (!isMounted || isConnectingRef.current) return;
             isConnectingRef.current = true;
+
+            let contentToLoad = '';
+            try {
+                const file = await getFileByRoomId(roomId);
+                contentToLoad = file.content || '';
+                setFileId(file.id);
+                setFileError(null);
+            } catch (error) {
+                console.error('Error loading file content:', error);
+                setFileError('File not found or could not be loaded');
+                contentToLoad = '';
+            }
 
             const ydoc = new Y.Doc();
             const ytext = ydoc.getText('content');
@@ -35,15 +82,10 @@ function Editor({ roomId = 'demo', getToken }) {
                     const token = await getToken();
                     if (token) {
                         wsUrl = `${WS_URL}?token=${encodeURIComponent(token)}`;
-                        console.log('Connecting with authentication token');
-                    } else {
-                        console.warn('No auth token available, connection will fail');
                     }
                 } catch (error) {
                     console.warn('Failed to get auth token:', error);
                 }
-            } else {
-                console.warn('No getToken function provided, connection will fail');
             }
 
             if (!isMounted) return;
@@ -58,41 +100,38 @@ function Editor({ roomId = 'demo', getToken }) {
             providerInstance = newProvider;
             
             newProvider.on('status', (event) => {
-                console.log('status ->', event.status);
                 if (event.status === 'disconnected') {
                     setStatus('disconnected');
                 }
             });
             
             newProvider.on('connect', () => {
-                console.log('connected ->', roomId);
                 setStatus('connected');
             });
             
             newProvider.on('disconnect', () => {
-                console.log('disconnected ->', roomId);
                 setStatus('disconnected');
             });
 
-            newProvider.on('authenticationFailed', (event) => {
-                console.error('failed ->', event);
+            newProvider.on('authenticationFailed', () => {
                 setStatus('auth-failed');
             });
 
-            newProvider.on('close', (event) => {
-                console.log('closed ->', event);
+            newProvider.on('close', () => {
                 setStatus('closed');
             });
 
             newProvider.on('synced', () => {
-                console.log('synced ->');
-                
                 setTimeout(() => {
                     if (ytext.length === 0) {
                         try {
-                            ytext.insert(0, "// AZAZAZAZ [welcome baby]");
+                            if (contentToLoad) {
+                                ytext.insert(0, contentToLoad);
+                            } else {
+                                ytext.insert(0, "// Welcome to Codium Editor\n// Start typing your code here...");
+                            }
                         } catch (error) {
-                            console.warn('Error', error);
+                            console.warn('Error inserting content:', error);
                         }
                     }
                 }, 100);
@@ -159,9 +198,38 @@ function Editor({ roomId = 'demo', getToken }) {
 
     return (
         <div className={styles.editorContainer}>
-            <div style={{ color: status === 'connected' ? 'green' : 'orange' }}>
-                ● {status} (Room: {roomId})
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                <div style={{ color: status === 'connected' ? 'green' : 'orange' }}>
+                    ● {status} (Room: {roomId})
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    {lastSaved && (
+                        <span style={{ color: '#a3a3a3', fontSize: '0.9rem' }}>
+                            Last saved: {lastSaved.toLocaleTimeString()}
+                        </span>
+                    )}
+                    <button 
+                        onClick={saveFile} 
+                        disabled={!fileId || isSaving}
+                        style={{
+                            padding: '8px 16px',
+                            backgroundColor: isSaving ? '#6b7280' : '#10b981',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: isSaving ? 'not-allowed' : 'pointer',
+                            fontSize: '0.9rem'
+                        }}
+                    >
+                        {isSaving ? 'Saving...' : 'Save'}
+                    </button>
+                </div>
             </div>
+            {fileError && (
+                <div style={{ color: 'red', marginBottom: '10px', padding: '10px', backgroundColor: '#2d1b1b', border: '1px solid #ff4444', borderRadius: '4px' }}>
+                    ⚠️ {fileError}
+                </div>
+            )}
             <CodeMirror
                 height="400px"
                 extensions={extensions}
@@ -179,7 +247,7 @@ function Editor({ roomId = 'demo', getToken }) {
                     },
                 })}
             />
-            <div>
+            <div style={{ marginTop: '10px' }}>
                 <button onClick={clearEditor}>Clear</button>
             </div>
         </div>

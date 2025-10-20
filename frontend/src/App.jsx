@@ -1,6 +1,7 @@
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router';
+import { createBrowserRouter, RouterProvider, Navigate, useParams } from 'react-router';
 import { useCallback } from 'react';
 import { AuthProvider } from './contexts/AuthProvider';
+import { ToastProvider } from './contexts/ToastProvider';
 import Header from './shared/Header';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
@@ -19,7 +20,8 @@ function AppLayout() {
   );
 }
 
-function App() {
+function EditorWrapper() {
+  const { roomId } = useParams();
   const auth = getAuth();
   const getToken = useCallback(async () => {
     if (auth.currentUser) {
@@ -28,6 +30,10 @@ function App() {
     return null;
   }, [auth.currentUser]);
 
+  return <Editor roomId={roomId || "demo"} getToken={getToken} />;
+}
+
+function App() {
   const router = createBrowserRouter([
     {
       path: "/",
@@ -39,13 +45,19 @@ function App() {
     },
     {
       path: "/editor",
-      element: <Editor roomId="demo" getToken={getToken} />
+      element: <EditorWrapper />
+    },
+    {
+      path: "/editor/:roomId",
+      element: <EditorWrapper />
     }
   ]);
 
   return (
     <AuthProvider>
-      <RouterProvider router={router} />
+      <ToastProvider>
+        <RouterProvider router={router} />
+      </ToastProvider>
     </AuthProvider>
   );
 }

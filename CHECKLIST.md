@@ -1,10 +1,10 @@
 # Final Project Checklist
 
 ## General
-- [ ] Uses a public GitHub repo.
-- [ ] Scaffolded using **Vite** with the `react` template (not `react-ts`, `react-swc`, or `react-swc-ts`).
-- [ ] Uses **NPM**.
-- [ ] Installs and uses dependencies: `react-router`.
+- [x] Uses a public GitHub repo.
+- [x] Scaffolded using **Vite** with the `react` template (not `react-ts`, `react-swc`, or `react-swc-ts`).
+- [x] Uses **NPM**.
+- [x] Installs and uses dependencies: `react-router`.
 
 ---
 
@@ -22,17 +22,17 @@
 ## Project Structure
 
 ### Root directory must contain:
-- [ ] `src/`
-- [ ] `.env.local.example` (example values for env vars).
-- [ ] `.gitignore` (includes at least):
-  - `node_modules`
-  - `dist`
-  - `*.local` (covers `.env.local`)
-  - `.DS_Store`
-- [ ] `index.html` (only `<head>` modifications allowed).
-- [ ] `package.json`
-- [ ] `package-lock.json`
-- [ ] `vite.config.js`
+- [x] `src/`
+- [x] `.env.local.example` (example values for env vars).
+- [x] `.gitignore` (includes at least):
+- [x] `node_modules`
+- [x] `dist`
+- [x] `*.local` (covers `.env.local`)
+- [x] `.DS_Store`
+- [x] `index.html` (only `<head>` modifications allowed).
+- [x] `package.json`
+- [x] `package-lock.json`
+- [x] `vite.config.js`
 - [ ] `README.md` with:
   - [ ] Project title & description.
   - [ ] Details on added dependencies (esp. DOM-manipulating ones).

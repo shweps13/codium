@@ -17,4 +17,60 @@
 .navLinks {
   display: flex;
   gap: 1rem;
+  align-items: center;
+}
+
+.navLinks button {
+  background: none;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.navLinks button:hover {
+  background: #fff;
+  color: #000;
+}
+
+.navLinks a {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.navLinks a:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.navLinks span {
+  color: #a3a3a3;
+  font-size: 0.9rem;
+}
+
+.mainHeader nav > div {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.mainHeader nav button {
+  background: none;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.mainHeader nav button:hover {
+  background: #fff;
+  color: #000;
 }
