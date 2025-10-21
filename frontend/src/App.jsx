@@ -4,6 +4,7 @@ import { AuthProvider } from './contexts/AuthProvider';
 import { ToastProvider } from './contexts/ToastProvider';
 import Header from './shared/Header';
 import Home from './pages/Home';
+import NotFound from './pages/404';
 import Dashboard from './pages/Dashboard';
 import Editor from './pages/MainEditor';
 import styles from './css/App.module.css';
@@ -42,13 +43,14 @@ function App() {
       element: <Dashboard />
     },
     {
-      path: "/editor",
+      path: "/editor/:roomId",
       element: <EditorWrapper />
     },
     {
-      path: "/editor/:roomId",
-      element: <EditorWrapper />
-    }
+      path: "*",
+      element: <NotFound />
+    },
+
   ]);
 
   return (

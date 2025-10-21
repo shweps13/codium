@@ -97,13 +97,14 @@
 
 ## React Router
 - [x] Install `react-router`.
-- [ ] Wrap `App` with `BrowserRouter` in `main.jsx`.
+- [o] Wrap `App` with `BrowserRouter` in `main.jsx`.
+  - [x] [BrowserRouter implemented in App.jsx in order to keep main.jsx clean]
 - [x] Include ≥2 routes.
   - [x] ["/dashboard"]
   - [x] ["/editor"]
 - [x] Route elements use components from `pages/`.
-- [ ] Wildcard route for "Not Found" page.
-- [ ] Use `NavLink` for global navigation (can use `Link` elsewhere).
+- [x] Wildcard route for "Not Found" page.
+- [x] Use `NavLink` for global navigation (can use `Link` elsewhere).
 
 ---
 
@@ -125,7 +126,8 @@
 - [ ] No uncaught errors (warnings acceptable).
 - [x] App never crashes.
 - [x] `StrictMode` enabled in `main.jsx`.
-- [ ] Form inputs/labels properly associated.
+- [x] Form inputs/labels properly associated.
+  - [x] [Inputs for modals contan correct labels]
 - [x] Catch & show foreseeable errors in UI.
   - [x] [ToastContext implemented]
 - [x] App supports CRUD operations:

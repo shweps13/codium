@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { Link, NavLink, useNavigate } from 'react-router';
 import { useAuth } from '../hooks/useAuth';
 import SignInModal from '../features/SignInModal';
 import SignUpModal from '../features/SignUpModal';
@@ -33,11 +33,14 @@ function Header() {
             <span>
               Welcome, {currentUser.email}
             </span>
-            <Link 
-              to="/dashboard" 
+            <NavLink 
+              to="/dashboard"
+              className={({ isActive }) => 
+                isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
+              }
             >
               Dashboard
-            </Link>
+            </NavLink>
             <button
               onClick={handleLogout}              
             >

@@ -1,29 +1,21 @@
 import styles from '../css/Home.module.css';
 import { AnimatedBackground } from '../components/AnimatedBackground';
-import githubIcon from '../assets/github-icon.svg';
 import { useNavigate } from 'react-router';
-import { useAuth } from '../hooks/useAuth';
 import SignInModal from '../features/SignInModal';
 import { useState } from 'react';
 import Snippet from '../shared/Snippet';
+import Header from '../shared/Header';
 
 // eslint-disable-next-line no-unused-vars
 import { motion } from 'motion/react';
 
-function Home() {
+function NotFound() {
   const navigate = useNavigate();
-  const { currentUser } = useAuth();
   const [showSignIn, setShowSignIn] = useState(false);
 
-  const tryCodium = () => {
-    if (currentUser) {
-      navigate('/dashboard');
-    } else {
-      setShowSignIn(true);
-    }
-  };
-
   return (
+    <>
+    <Header />
     <div className={styles.hero}>
       <AnimatedBackground />
       <div className={styles.heroMainContent}>
@@ -32,49 +24,48 @@ function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          Collaborate. Code. Create.
+          404 Page Not Found
         </motion.h1>
 
         <Snippet message={`import { useCollaboration } from 'codium';
 
-export default function App() {
+export default function NotFound() {
   const { doc, users, connect } = useCollaboration();
-  
+
+  console.error("404: Page not found");
+
   return (
     <Editor
       doc={doc}
       users={users}
       onConnect={connect}
+      message="Oops! The page you are looking for doesn't exist."
     />
   );
-}`} />
+}`} extended={true} />
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          A next-generation real-time editor built for teams.
+          Better luck next time!
         </motion.p>
 
-         <motion.div
-           className={styles.heroButtons}
-           initial={{ opacity: 0, y: 20 }}
-           animate={{ opacity: 1, y: 0 }}
-           transition={{ duration: 0.6, delay: 0.4 }}
-         >
-           <button onClick={tryCodium}>
-             Try Codium
-           </button>
-           <button onClick={() => window.open('https://github.com/shweps13/codium', '_blank')}>
-             <img src={githubIcon} alt="GitHub" />
-             View on GitHub
-           </button>
-         </motion.div>
+        <motion.div
+          className={styles.heroButtons}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <button onClick={() => navigate('/')}>
+            Go to Home
+          </button>
+        </motion.div>
       </div>
 
       {showSignIn && (
-        <SignInModal 
+        <SignInModal
           onClose={() => setShowSignIn(false)}
           onSwitchToSignUp={() => {
             setShowSignIn(false);
@@ -82,7 +73,8 @@ export default function App() {
         />
       )}
     </div>
+    </>
   );
 }
 
-export default Home;
+export default NotFound;

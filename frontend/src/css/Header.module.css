@@ -48,6 +48,23 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
+.navLink {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.navLink:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.navLink.active {
+  background: rgba(87, 87, 87, 0.2);
+  font-weight: 600;
+}
+
 .navLinks span {
   color: #a3a3a3;
   font-size: 0.9rem;
