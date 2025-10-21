@@ -4,6 +4,7 @@ import { useAuth } from '../hooks/useAuth';
 import SignInModal from '../features/SignInModal';
 import SignUpModal from '../features/SignUpModal';
 import styles from '../css/Header.module.css';
+import logo from '../assets/logo.svg';
 
 function Header() {
   const { currentUser, logout } = useAuth();
@@ -23,9 +24,7 @@ function Header() {
   return (  
     <header className={styles.mainHeader}>
       <Link to="/">
-        <h1>
-          Codium
-        </h1>
+        <img src={logo} alt="Codium" className={styles.logo} />
       </Link>
       
       <nav>

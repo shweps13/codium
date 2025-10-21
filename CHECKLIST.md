@@ -40,22 +40,22 @@
   - [ ] API connection details (mention if credentials/services needed).
 
 ### Root directory must NOT contain:
-- [ ] `node_modules/`
-- [ ] `.env.local` or other sensitive files.
-- [ ] Component files except `App.jsx` and `main.jsx`.
-- [ ] Yarn artifacts.
-- [ ] `public/` (except favicon).
+- [x] `node_modules/`
+- [x] `.env.local` or other sensitive files.
+- [x] Component files except `App.jsx` and `main.jsx`.
+- [x] Yarn artifacts.
+- [x] `public/` (except favicon).
 
 ### Inside `src/`:
-- [ ] `assets/` (imagery, fonts, etc.).
-- [ ] `features/` (≥ 2 features).
+- [x] `assets/` (imagery, fonts, etc.).
+- [x] `features/` (≥ 2 features).
   - If feature has >1 component → place them in a subfolder.
-- [ ] `pages/` (≥ 3 page components).
-- [ ] `shared/` (≥ 2 reusable components).
-- [ ] `App.css`
-- [ ] `App.jsx`
-- [ ] `main.jsx`
-- [ ] Additional dirs allowed for organization.
+- [x] `pages/` (≥ 3 page components).
+- [x] `shared/` (≥ 2 reusable components).
+- [x] `App.css` - [moved to css/ folder]
+- [x] `App.jsx`
+- [x] `main.jsx`
+- [x] Additional dirs allowed for organization.
 
 ---
 

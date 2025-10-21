@@ -13,9 +13,7 @@ function AppLayout() {
   return (
     <div className={styles.appLayout}>
       <Header />
-      <main>
-        <Home />
-      </main>
+      <Home />
     </div>
   );
 }

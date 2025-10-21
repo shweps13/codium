@@ -1,0 +1,81 @@
+.hero {
+  position: relative;
+  min-height: calc(100vh - 64px - 2rem);
+  background: linear-gradient(to bottom, #242424, #202020, #242424);
+  overflow: hidden;
+}
+
+.heroMainContent {
+  padding: 8rem 1.5rem 5rem;
+  text-align: center;
+}
+
+.heroMainContent h1 {
+  margin-bottom: 1.5rem;
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.heroMainContent p {
+  color: #9ca3af;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+}
+
+.heroButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.heroButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.heroButtons button {
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: white;
+}
+
+.heroButtons button:first-child {
+  background-color: #9333ea;
+}
+
+.heroButtons button:last-child {
+  background-color: transparent;
+  border: 1px solid #374151;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.heroButtons button:last-child:hover {
+  background-color: #1a1a1a;
+}
+.heroButtons button:first-child:hover {
+  background-color: #7c3aed;
+}
+
+@media (min-width: 640px) {
+  .heroMainContent h1 {
+    font-size: 3.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .heroMainContent h1 {
+    font-size: 4.5rem;
+  }
+}
