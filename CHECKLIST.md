@@ -60,8 +60,12 @@
 ---
 
 ## Data Schema
-- [ ] Create ≥1 object/array of objects for state.
-- [ ] Use simplest data structures possible.
+- [x] Create ≥1 object/array of objects for state.
+  - [x] [Dashboard.jsx has a useState with files array]
+  - [x] [AuthProvider.jsx has a useState with currentUser data]
+  - [x] [ToastProvider.jsx has a useState with toast objects data]
+- [x] Use simplest data structures possible.
+  - [x] [I do have a fileData inside of fileService.js which is structure for user 'file']
 
 ---
 
@@ -84,14 +88,18 @@
   - [x] [frontend/src/pages/Dashboard.jsx]
   - [x] [frontend/src/shared/Header.jsx]
   - [x] [frontend/src/components/Editor.jsx]
-- [ ] 1 controlled form with ≥1 validated field.
+- [x] 1 controlled form with ≥1 validated field.
+  - [x] [Sign In modal has simple field validation (provided by html: type="email", type="password")]
+  - [x] [Custom validation at "Create New File" modal]
 - [x] 2 `useEffect` calls (with cleanup if needed).
   - [x] [frontend/src/components/Editor.jsx]
   - [x] [frontend/src/pages/Dashboard.jsx]
 - [x] 1 `useCallback`.
   - [x] [frontend/src/pages/Dashboard.jsx]
-- [ ] Accurate dependency arrays in hooks.
-- [ ] Arrays of rendered components use **unique keys** (not array indices).
+- [x] Accurate dependency arrays in hooks.
+  - [x] [useEffect/useCallback hooks has necessary/empty dependancy arrays]
+- [x] Arrays of rendered components use **unique keys** (not array indices).
+  - [x] [FileCard component inside of Dashboard.jsx uses unique keys with IDs provided by Firebase]
 
 ---
 
@@ -123,7 +131,7 @@
   - [ ] Include repo link + setup instructions in README.
 
 ### Functionality
-- [ ] No uncaught errors (warnings acceptable).
+- [x] No uncaught errors (warnings acceptable).
 - [x] App never crashes.
 - [x] `StrictMode` enabled in `main.jsx`.
 - [x] Form inputs/labels properly associated.
@@ -146,7 +154,8 @@
 - [x] No component/theming libs (exceptions for notifications with approval).
   - [x] Only two separate Radix components - Notifications (@radix-ui/react-toast) and Modal (@radix-ui/react-dialog).
 - [x] Consistent theming/layouts across pages.
-- [ ] Different font for headings vs. body text.
+- [x] Different font for headings vs. body text.
+  - [x] [Inter for headers]
 - [x] Legible interface text.
 - [x] Images include descriptive `alt` text (except decorative).
 - [x] Any sounds must be mute-able in UI.

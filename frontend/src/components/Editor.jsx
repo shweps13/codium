@@ -25,9 +25,19 @@ function Editor({ roomId = 'demo', getToken }) {
     const isConnectingRef = useRef(false);
     const { success, error: showError } = useToast();
 
+    const copyRoomId = useCallback(async () => {
+        try {
+            await navigator.clipboard.writeText(roomId);
+            success('Room ID copied to clipboard!');
+        } catch (error) {
+            console.error('Failed to copy room ID:', error);
+            showError('Failed to copy room ID');
+        }
+    }, [roomId, success, showError]);
+
     const saveFile = useCallback(async () => {
         if (!fileId || !ytext || isSaving) return;
-        
+
         setIsSaving(true);
         try {
             const content = ytext.toString();
@@ -75,7 +85,7 @@ function Editor({ roomId = 'demo', getToken }) {
 
             const ydoc = new Y.Doc();
             const ytext = ydoc.getText('content');
-            
+
             let wsUrl = WS_URL;
             if (getToken) {
                 try {
@@ -98,17 +108,17 @@ function Editor({ roomId = 'demo', getToken }) {
 
             const newProvider = new HocuspocusProvider(providerConfig);
             providerInstance = newProvider;
-            
+
             newProvider.on('status', (event) => {
                 if (event.status === 'disconnected') {
                     setStatus('disconnected');
                 }
             });
-            
+
             newProvider.on('connect', () => {
                 setStatus('connected');
             });
-            
+
             newProvider.on('disconnect', () => {
                 setStatus('disconnected');
             });
@@ -136,7 +146,7 @@ function Editor({ roomId = 'demo', getToken }) {
                     }
                 }, 100);
             });
-            
+
             newProvider.configuration.awareness.setLocalStateField('user', {
                 name: `user-${Math.floor(Math.random() * 1000)}`,
                 color: `hsl(${Math.floor(Math.random() * 360)}, 80%, 60%)`,
@@ -171,7 +181,7 @@ function Editor({ roomId = 'demo', getToken }) {
 
     const extensions = useMemo(() => {
         if (!ytext || !provider) return [];
-        
+
         const undoManager = new Y.UndoManager(ytext);
         return [
             javascript(),
@@ -181,14 +191,10 @@ function Editor({ roomId = 'demo', getToken }) {
         ];
     }, [ytext, provider]);
 
-    const clearEditor = () => {
-        if (ytext && ytext.length > 0) ytext.delete(0, ytext.length);
-    };
-
     if (!provider || !ytext) {
         return (
             <div className={styles.editorContainer}>
-                <div style={{ color: "orange" }}>
+                <div className={styles.statusConnecting}>
                     ● init
                 </div>
             </div>
@@ -198,43 +204,34 @@ function Editor({ roomId = 'demo', getToken }) {
 
     return (
         <div className={styles.editorContainer}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                <div style={{ color: status === 'connected' ? 'green' : 'orange' }}>
-                    ● {status} (Room: {roomId})
+            <div className={styles.editorHeader}>
+                <div className={status === 'connected' ? styles.statusConnected : status === 'closed' ? styles.statusDisconnected : styles.statusConnecting}>
+                    ● {status.charAt(0).toUpperCase() + status.slice(1)} - Room: <span className={styles.roomId} onClick={copyRoomId} title="Click to copy">{roomId}</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div>
                     {lastSaved && (
-                        <span style={{ color: '#a3a3a3', fontSize: '0.9rem' }}>
+                        <span className={styles.lastSaved}>
                             Last saved: {lastSaved.toLocaleTimeString()}
                         </span>
                     )}
-                    <button 
-                        onClick={saveFile} 
+                    <button
+                        onClick={saveFile}
                         disabled={!fileId || isSaving}
-                        style={{
-                            padding: '8px 16px',
-                            backgroundColor: isSaving ? '#6b7280' : '#10b981',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: isSaving ? 'not-allowed' : 'pointer',
-                            fontSize: '0.9rem'
-                        }}
-                    >
+                        className={isSaving ? styles.saveBtnDisabled : styles.saveBtn} >
                         {isSaving ? 'Saving...' : 'Save'}
                     </button>
                 </div>
             </div>
             {fileError && (
-                <div style={{ color: 'red', marginBottom: '10px', padding: '10px', backgroundColor: '#2d1b1b', border: '1px solid #ff4444', borderRadius: '4px' }}>
-                    ⚠️ {fileError}
+                <div className={styles.fileError}>
+                    {fileError}
                 </div>
             )}
             <CodeMirror
-                height="400px"
+                height="calc(100vh - 55px - 6rem)"
                 extensions={extensions}
                 basicSetup={{
-                    foldGutter: false,
+                    foldGutter: true,
                     dropCursor: false,
                     allowMultipleSelections: true,
                     indentOnInput: true,
@@ -242,14 +239,16 @@ function Editor({ roomId = 'demo', getToken }) {
                 theme={materialDarkInit({
                     settings: {
                         caret: "#c6c6c6",
+                        background: "#222222",
+                        gutterBackground: "#202020",
+                        gutterForeground: "#cccccc",
+                        gutterActiveForeground: "#ffffff",
+                        gutterBorder: "#404040",
                         fontFamily:
                             'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
                     },
                 })}
             />
-            <div style={{ marginTop: '10px' }}>
-                <button onClick={clearEditor}>Clear</button>
-            </div>
         </div>
     );
 }

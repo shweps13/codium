@@ -9,20 +9,64 @@ export default function CreateFileModal({
 }) {
   const [fileName, setFileName] = useState('');
   const [fileContent, setFileContent] = useState('');
+  const [fileNameError, setFileNameError] = useState('');
+
+  const validateFileName = (name) => {
+    const trimmedName = name.trim();
+    
+    if (!trimmedName) {
+      return 'File name is required';
+    }
+    
+    if (trimmedName.length < 1) {
+      return 'File name must be at least 1 character long';
+    }
+    
+    if (trimmedName.length > 32) {
+      return 'File name must be less than 32 characters';
+    }
+    
+    const invalidChars = /[<>:"/\\|?*]/;
+    if (invalidChars.test(trimmedName)) {
+      return 'File name contains invalid characters';
+    }
+    
+    for (let i = 0; i < trimmedName.length; i++) {
+      const charCode = trimmedName.charCodeAt(i);
+      if (charCode < 32) {
+        return 'File name contains invalid characters';
+      }
+    }
+    
+    return '';
+  };
+
+  const handleFileNameChange = (e) => {
+    const value = e.target.value;
+    setFileName(value);
+    setFileNameError(validateFileName(value));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!fileName.trim()) return;
+    
+    const validationError = validateFileName(fileName);
+    if (validationError) {
+      setFileNameError(validationError);
+      return;
+    }
 
     await onCreateFile(fileName.trim(), fileContent);
     setFileName('');
     setFileContent('');
+    setFileNameError('');
     onClose();
   };
 
   const handleClose = () => {
     setFileName('');
     setFileContent('');
+    setFileNameError('');
     onClose();
   };
 
@@ -39,10 +83,16 @@ export default function CreateFileModal({
                 type="text"
                 id="fileName"
                 value={fileName}
-                onChange={(e) => setFileName(e.target.value)}
+                onChange={handleFileNameChange}
                 placeholder="Enter file name"
                 required
+                className={fileNameError ? styles.inputError : ''}
               />
+              {fileNameError && (
+                <div>
+                  {fileNameError}
+                </div>
+              )}
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="fileContent">Initial Content (optional):</label>

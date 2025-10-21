@@ -91,10 +91,22 @@
   border-color: #3b82f6;
 }
 
-.formGroup textarea {
-  resize: vertical;
-  min-height: 120px;
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+.formGroup input.inputError {
+  border-color: #dc2626;
+}
+
+.formGroup input.inputError:focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+}
+
+.formGroup textarea.inputError {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+}
+
+.formGroup div {
+  color: #dc2626;
 }
 
 .modalActions {
