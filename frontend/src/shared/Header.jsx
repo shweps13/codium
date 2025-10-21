@@ -38,11 +38,6 @@ function Header() {
             >
               Dashboard
             </Link>
-            <Link 
-              to="/editor" 
-            >
-              Editor
-            </Link>
             <button
               onClick={handleLogout}              
             >

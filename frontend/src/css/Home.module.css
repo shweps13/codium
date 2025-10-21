@@ -11,7 +11,7 @@
 }
 
 .heroMainContent h1 {
-  margin-bottom: 1.5rem;
+  margin-bottom: 5rem;
   font-size: 3rem;
   font-weight: 700;
   line-height: 1.1;
@@ -66,6 +66,142 @@
 }
 .heroButtons button:first-child:hover {
   background-color: #7c3aed;
+}
+
+.codeShowcase {
+  max-width: 64rem;
+  margin: 2rem auto;
+}
+
+.codeContainer {
+  position: relative;
+  background-color: #2a2a2a;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(107, 114, 128, 0.6);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 0 50px rgba(168, 85, 247, 0.2);
+}
+
+.codeHeader {
+  background-color: #2d2d2d;
+  border-bottom: 2px solid rgba(107, 114, 128, 0.6);
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.codeHeaderLeft,
+.codeHeaderRight,
+.windowButtons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.windowButtons,
+.codeHeaderRight {
+  gap: 0.5rem;
+}
+
+.windowButtons div {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background-color: #ef4444;
+}
+
+.windowButtons div:nth-child(2) {
+  background-color: #eab308;
+}
+
+.windowButtons div:nth-child(3) {
+  background-color: #22c55e;
+}
+
+.fileName {
+  color: #9ca3af;
+  font-size: 0.875rem;
+}
+
+.userList {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.userList span {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.userList span div{
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: #3b82f6;
+}
+.userList span:nth-child(2) div {
+  background-color: #22c55e;
+}
+.userList span:nth-child(3) div {
+  background-color: #f97316;
+}
+
+.codeContent {
+  padding: 1.5rem;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  font-size: 0.875rem;
+  overflow-x: auto;
+  background-color: #1e1e1e;
+  text-align: left;
+}
+
+.codePre, .code {
+  margin: 0;
+  padding: 0;
+  color: #d1d5db;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.cursorContainer, .cursorContainer2 {
+  position: absolute;
+  top: 8.45rem;
+  left: 27.7rem;
+}
+
+.cursorContainer2 {
+  top: 13.75rem;
+  left: 9.25rem;
+}
+
+.cursorWrapper {
+  position: relative;
+}
+
+.cursorSvg {
+  display: block;
+}
+
+.cursorLabel, .cursorLabel2 {
+  position: absolute;
+  top: -1.5rem;
+  left: 0.75rem;
+  padding: 0.125rem 0.5rem;
+  background-color: #3b82f6;
+  color: white;
+  font-size: 0.75rem;
+  border-radius: 0.25rem;
+  white-space: nowrap;
+}
+
+.cursorLabel2 {
+  background-color: #22c55e;
 }
 
 @media (min-width: 640px) {
