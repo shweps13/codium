@@ -186,16 +186,44 @@
   color: #a3a3a3;
 }
 
+.contentPreview {
+  margin: 8px 0;
+  padding: 8px;
+  background: #1a1a1a;
+  border-radius: 4px;
+  border: 1px solid #333;
+}
+
+.previewLabel {
+  margin: 0 0 4px 0;
+  font-size: 0.8rem;
+  color: #888;
+  font-weight: 500;
+}
+
+.previewText {
+  margin: 0;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.8rem;
+  color: #d1d5db;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 .sharingInfo {
   background: #171717;
   padding: 12px;
   border-radius: 4px;
   margin-top: 12px;
   border: 1px solid #404040;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .roomId {
-  margin: 0 0 8px 0;
+  margin: 0;
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
   font-size: 0.85rem;
   color: white;
@@ -204,6 +232,7 @@
   padding: 6px 8px;
   border-radius: 3px;
   border: 1px solid #404040;
+  flex: 1;
 }
 
 .copyButton {

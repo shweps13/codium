@@ -43,7 +43,7 @@ export const getUserFiles = async (userId) => {
     const q = query(
       collection(db, 'files'),
       where('ownerId', '==', userId),
-      orderBy('updatedAt', 'desc')
+      orderBy('createdAt', 'desc')
     );
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));

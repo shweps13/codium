@@ -2,6 +2,10 @@ import { useState } from 'react';
 import dashboardStyles from '../css/Dashboard.module.css';
 import DeleteFileModal from '../modals/DeleteFileModal';
 import { useToast } from '../hooks/useToast';
+import deleteIcon from '../assets/delete.svg';
+
+// eslint-disable-next-line no-unused-vars
+import { motion } from 'motion/react';
 
 export default function FileCard({
     file,
@@ -17,10 +21,13 @@ export default function FileCard({
         success('Room ID copied to clipboard!');
     };
 
-    const formatDate = (timestamp) => {
-        if (!timestamp) return 'Unknown';
-        const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
-        return date.toLocaleString();
+    const getContentPreview = (content) => {
+        if (!content) return 'No content';
+        const maxLength = 100;
+        const preview = content.length > maxLength 
+            ? content.substring(0, maxLength) + '...'
+            : content;
+        return preview;
     };
 
     const handleDelete = (fileId) => {
@@ -29,7 +36,17 @@ export default function FileCard({
 
     return (
         <>
-            <div className={dashboardStyles.fileCard}>
+            <motion.div
+                className={dashboardStyles.fileCard}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                whileHover={{
+                    scale: 1.02,
+                    boxShadow: "0 8px 25px rgba(0, 0, 0, 0.15)"
+                }}
+                whileTap={{ scale: 0.98 }}
+            >
                 <div className={dashboardStyles.fileHeader}>
                     <h3 className={dashboardStyles.fileName}>{file.name}</h3>
                     <div className={dashboardStyles.fileActions}>
@@ -52,20 +69,22 @@ export default function FileCard({
                             onClick={() => setShowDeleteModal(true)}
                             title="Delete File"
                         >
-                            Delete
+                            <img width={15} height={15} src={deleteIcon} alt="Delete" className={dashboardStyles.deleteIcon} />
                         </button>
                     </div>
                 </div>
 
                 <div className={dashboardStyles.fileInfo}>
-                    <p className={dashboardStyles.fileMeta}>
-                        Created: {formatDate(file.createdAt)}
-                    </p>
-                    <p className={dashboardStyles.fileMeta}>
-                        Updated: {formatDate(file.updatedAt)}
-                    </p>
+                    <div className={dashboardStyles.contentPreview}>
+                        <p className={dashboardStyles.previewLabel}>Preview:</p>
+                        <p className={dashboardStyles.previewText}>
+                            {getContentPreview(file.content)}
+                        </p>
+                    </div>
                     {file.isShared && (
-                        <div className={dashboardStyles.sharingInfo}>
+                        <div
+                            className={dashboardStyles.sharingInfo}
+                        >
                             <p className={dashboardStyles.roomId}>
                                 Room ID: {file.roomId}
                             </p>
@@ -78,7 +97,7 @@ export default function FileCard({
                         </div>
                     )}
                 </div>
-            </div>
+            </motion.div>
 
             <DeleteFileModal
                 file={file}

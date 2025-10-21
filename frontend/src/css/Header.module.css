@@ -51,6 +51,11 @@
 .navLinks span {
   color: #a3a3a3;
   font-size: 0.9rem;
+  display: none;
+}
+
+img.logo  {
+  width: 200px;
 }
 
 .mainHeader nav > div {
@@ -73,4 +78,13 @@
 .mainHeader nav button:hover {
   background: #fff;
   color: #000;
+}
+
+@media (min-width: 640px) {
+  .navLinks span {
+    display: block;
+  }
+  img.logo  {
+    width: auto;
+  }
 }

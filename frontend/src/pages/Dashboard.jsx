@@ -5,7 +5,6 @@ import { useToast } from '../hooks/useToast';
 import Header from '../shared/Header';
 import ProtectedRoute from '../shared/ProtectedRoute';
 import JoinRoomModal from '../components/JoinRoomModal';
-import FileEditor from '../components/FileEditor';
 import FileCard from '../components/FileCard';
 import CreateFileModal from '../modals/CreateFileModal';
 import {
@@ -24,7 +23,6 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
-  const [editingFile, setEditingFile] = useState(null);
 
   const loadFiles = useCallback(async () => {
     if (!currentUser) return;
@@ -109,11 +107,11 @@ export default function Dashboard() {
   };
 
   const handleJoinRoom = (file) => {
-    setEditingFile(file);
-  };
-
-  const handleFileSaved = () => {
-    loadFiles();
+    if (file && file.roomId) {
+      navigate(`/editor/${file.roomId}`);
+    } else {
+      showError('Invalid room ID. Please try again.');
+    }
   };
 
   return (
@@ -192,13 +190,6 @@ export default function Dashboard() {
             onJoinRoom={handleJoinRoom}
           />
 
-          {editingFile && (
-            <FileEditor
-              file={editingFile}
-              onClose={() => setEditingFile(null)}
-              onSave={handleFileSaved}
-            />
-          )}
         </div>
       </ProtectedRoute >
     </div >

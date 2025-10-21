@@ -9,13 +9,13 @@
 ---
 
 ## Coding Practices
-- [ ] Neat and consistent formatting (Prettier recommended).
-- [ ] Only 1 component per file unless using Styled-Components.
-- [ ] Component names in **PascalCase**; filenames match component names.
-- [ ] Minimize implicit type coercion.
-- [ ] Favor functional approaches (e.g., `map` instead of `forEach`).
-- [ ] Comments: concise, only for tricky code. Remove commented-out code/personal notes.
-- [ ] Utility/helper-only files should have `.js` extension.
+- [x] Neat and consistent formatting (Prettier recommended).
+- [x] Only 1 component per file unless using Styled-Components.
+- [x] Component names in **PascalCase**; filenames match component names.
+- [x] Minimize implicit type coercion.
+- [x] Favor functional approaches (e.g., `map` instead of `forEach`).
+- [x] Comments: concise, only for tricky code. Remove commented-out code/personal notes.
+- [x] Utility/helper-only files should have `.js` extension.
 
 ---
 
@@ -66,31 +66,42 @@
 ---
 
 ## React Concepts
-- [ ] Browser page should never refresh on user interaction.
-- [ ] All components functional (no classes).
-- [ ] Use only React-compatible props.
-- [ ] Never mutate state.
-- [ ] Components return valid JSX.
-- [ ] No direct DOM manipulation (except via 3rd-party libs; note in README).
-- [ ] External data communication is async.
+- [x] Browser page should never refresh on user interaction.
+- [x] All components functional (no classes).
+- [x] Use only React-compatible props.
+- [x] Never mutate state.
+- [x] Components return valid JSX.
+- [x] No direct DOM manipulation (except via 3rd-party libs; note in README).
+- [x] External data communication is async.
 
 ### Must include:
-- [ ] 1 component with `children` prop.
-- [ ] 2 reusable components (≥2 HTML elements/subcomponents, use props).
-- [ ] 4 conditionally rendered components/elements.
+- [x] 1 component with `children` prop.
+  - [x] [frontend/src/contexts/ToastProvider.jsx]
+- [x] 2 reusable components (≥2 HTML elements/subcomponents, use props).
+  - [x] [frontend/src/components/FileCard.jsx]
+  - [x] [frontend/src/components/Editor.jsx]
+- [x] 4 conditionally rendered components/elements.
+  - [x] [frontend/src/pages/Dashboard.jsx]
+  - [x] [frontend/src/shared/Header.jsx]
+  - [x] [frontend/src/components/Editor.jsx]
 - [ ] 1 controlled form with ≥1 validated field.
-- [ ] 2 `useEffect` calls (with cleanup if needed).
-- [ ] 1 `useCallback`.
+- [x] 2 `useEffect` calls (with cleanup if needed).
+  - [x] [frontend/src/components/Editor.jsx]
+  - [x] [frontend/src/pages/Dashboard.jsx]
+- [x] 1 `useCallback`.
+  - [x] [frontend/src/pages/Dashboard.jsx]
 - [ ] Accurate dependency arrays in hooks.
 - [ ] Arrays of rendered components use **unique keys** (not array indices).
 
 ---
 
 ## React Router
-- [ ] Install `react-router`.
+- [x] Install `react-router`.
 - [ ] Wrap `App` with `BrowserRouter` in `main.jsx`.
-- [ ] Include ≥2 routes.
-- [ ] Route elements use components from `pages/`.
+- [x] Include ≥2 routes.
+  - [x] ["/dashboard"]
+  - [x] ["/editor"]
+- [x] Route elements use components from `pages/`.
 - [ ] Wildcard route for "Not Found" page.
 - [ ] Use `NavLink` for global navigation (can use `Link` elsewhere).
 
@@ -100,38 +111,44 @@
 
 ### Startup
 - [ ] Installs without errors (except minor package updates).
-- [ ] Starts without errors.
-- [ ] On load: performs network request or interacts with browser storage.
-- [ ] Loading status shown to user.
+- [x] Starts without errors.
+- [x] On load: performs network request or interacts with browser storage.
+- [x] Loading status shown to user.
 - [ ] Reviewers can access resources with minimal setup.
-- [ ] APIs: publicly accessible (anonymous or free signup).
-- [ ] If using local server:
-  - [ ] Must be Node.js.
-  - [ ] Runs error-free.
+- [x] APIs: publicly accessible (anonymous or free signup).
+- [x] If using local server:
+  - [x] Must be Node.js.
+  - [x] Runs error-free.
   - [ ] Include repo link + setup instructions in README.
 
 ### Functionality
 - [ ] No uncaught errors (warnings acceptable).
-- [ ] App never crashes.
-- [ ] `StrictMode` enabled in `main.jsx`.
+- [x] App never crashes.
+- [x] `StrictMode` enabled in `main.jsx`.
 - [ ] Form inputs/labels properly associated.
-- [ ] Catch & show foreseeable errors in UI.
-- [ ] App supports CRUD operations:
-  - [ ] Create
-  - [ ] Read
-  - [ ] Update
-  - [ ] Delete (optional)
-- [ ] Persist data via API, LocalStorage, or IndexedDB.
+- [x] Catch & show foreseeable errors in UI.
+  - [x] [ToastContext implemented]
+- [x] App supports CRUD operations:
+  - [x] Create [New file]
+  - [x] Read [List of files]
+  - [x] Update [Save editing results]
+  - [x] Delete [Delet file]
+    - [x] [File service located at frontend/src/services/fileService.js]
+- [x] Persist data via API, LocalStorage, or IndexedDB. 
+  - [x] [Firestore implemented]
 
 ---
 
 ## Appearance & UX
-- [ ] Styling via CSS, CSS Modules, or Styled-Components.
-- [ ] No component/theming libs (exceptions for notifications with approval).
-- [ ] Consistent theming/layouts across pages.
+- [x] Styling via CSS, CSS Modules, or Styled-Components.
+- [x] No component/theming libs (exceptions for notifications with approval).
+  - [x] Only two separate Radix components - Notifications (@radix-ui/react-toast) and Modal (@radix-ui/react-dialog).
+- [x] Consistent theming/layouts across pages.
 - [ ] Different font for headings vs. body text.
-- [ ] Legible interface text.
-- [ ] Images include descriptive `alt` text (except decorative).
-- [ ] Any sounds must be mute-able in UI.
-- [ ] Active `NavLink` visually distinct from inactive ones.
-- [ ] Assets optimized (e.g., no oversized images).
+- [x] Legible interface text.
+- [x] Images include descriptive `alt` text (except decorative).
+- [x] Any sounds must be mute-able in UI.
+- [x] Active `NavLink` visually distinct from inactive ones.
+  - [x] [Implemented button navigation controll]
+- [x] Assets optimized (e.g., no oversized images).
+  - [x] [Used svg instead of png/jpeg]
