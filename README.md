@@ -1,25 +1,19 @@
 # Codium - Collaborative Code Editor
 
+<img width="4404" height="4228" alt="image" src="https://github.com/user-attachments/assets/db09ccb6-8133-4a0c-b5d0-72ccf016b3ed" />
+
+
 A real-time collaborative code editor built with React and Firebase, allowing multiple users to edit code together with live synchronization and user presence indicators.
 
-## Inspiration
-- Idea came from: [React Project Ideas](https://medium.com/@rohan.fulzele/50-beginner-and-intermediate-level-react-project-ideas-%EF%B8%8F-809b396faa39)  
-  (41. Collaborative Code Editor: Develop an online code editor that multiple users can collaborate on in real time.)
-
-## Styling Reference
-- Styles for code window: [Figma community design](https://www.figma.com/community/file/1232205958285599960)
-- Styles for the main screen: [Visily.ai](https://app.visily.ai/projects/816a6f68-b8fc-4c32-b313-94b6d1120f49/boards/2279133)
-- Pure CSS loader: [loading.io](https://loading.io/css/)
-
----
+## Deployed Demo
+- Frontend ->   [https://codium-c1bd3.web.app/](https://codium-c1bd3.web.app/) - [Firebase Hosting]
+- Backend ->   wss://codium-86dg.onrender.com - [Render.com]
 
 ## Tech Stack
 
 **Frontend**
-- React (Vite)
-- React Router
-- Styling: CSS Modules
-- Motion - Animation library
+- React (Vite) + React Router
+- Styling: CSS Modules + Motion (Animation library)
 
 **Editor**
 - @uiw/react-codemirror with CodeMirror 6
@@ -35,53 +29,21 @@ A real-time collaborative code editor built with React and Firebase, allowing mu
 - Firebase Auth
 - Firestore Database
 
-**Deployment**
-- Frontend: Firebase Hosting  
-- Backend: Render.com
+---
+
+## Inspiration
+- Idea came from: [React Project Ideas](https://medium.com/@rohan.fulzele/50-beginner-and-intermediate-level-react-project-ideas-%EF%B8%8F-809b396faa39)  
+  (41. Collaborative Code Editor: Develop an online code editor that multiple users can collaborate on in real time.)
+
+## Styling Reference
+- Styles for code window: [Figma community design](https://www.figma.com/community/file/1232205958285599960)
+- Styles for the main screen: [Visily.ai](https://app.visily.ai/projects/816a6f68-b8fc-4c32-b313-94b6d1120f49/boards/2279133)
+- Pure CSS loader: [loading.io](https://loading.io/css/)
 
 ---
 
-## Dependencies
-
-### Core Dependencies
-- `react` - UI library
-- `react-dom` - React DOM rendering
-- `react-router-dom` - Client-side routing
-- `@uiw/react-codemirror` - Code editor component
-- `y-codemirror.next` - Real-time collaborative editing
-- `firebase` - Authentication and database
-
-### UI Dependencies
-- `@radix-ui/react-dialog` - Modal components
-- `@radix-ui/react-toast` - Toast notifications
-
-### Development Dependencies
-- `vite` - Build tool and dev server
-- `eslint` - Code linting
-
----
 
 ## Quick Start
-
-1. **Clone the repository:**
-```bash
-git clone <repository-url>
-cd codium
-```
-
-2. **Set up the backend:**
-```bash
-cd backend
-npm install
-# Follow instructions in backend/README.md
-```
-
-3. **Set up the frontend:**
-```bash
-cd ../frontend
-npm install
-# Follow instructions in frontend/README.md
-```
 
 For detailed installation and setup instructions, see:
 - [Frontend Setup Guide](./frontend/README.md)
@@ -134,7 +96,6 @@ codium/
 ├── frontend/           # React frontend application
 │   ├── src/           # Source code
 │   ├── public/        # Static assets
-│   ├── dist/          # Build output
 │   └── README.md      # Frontend setup guide
 ├── backend/           # Node.js backend server
 │   ├── server.js      # Express + Hocuspocus server
