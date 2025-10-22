@@ -10,6 +10,7 @@ import { keymap } from "@codemirror/view";
 import { defaultKeymap, history, historyKeymap } from "@codemirror/commands";
 import { getFileByRoomId, updateFile } from '../services/fileService';
 import { useToast } from '../hooks/useToast';
+import { useAuth } from '../hooks/useAuth';
 import styles from '../css/Editor.module.css';
 
 const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:1234';
@@ -22,8 +23,20 @@ function Editor({ roomId = 'demo', getToken }) {
     const [fileId, setFileId] = useState(null);
     const [isSaving, setIsSaving] = useState(false);
     const [lastSaved, setLastSaved] = useState(null);
+    const [users, setUsers] = useState(new Map());
     const isConnectingRef = useRef(false);
     const { success, error: showError } = useToast();
+    const { currentUser } = useAuth();
+
+    const getName = (user) => {
+        if (!user) return 'Anonymous';
+
+        return user.displayName ||
+            user.email ||
+            user.providerData?.[0]?.displayName ||
+            user.providerData?.[0]?.email ||
+            'Anonymous';
+    };
 
     const copyRoomId = useCallback(async () => {
         try {
@@ -147,10 +160,36 @@ function Editor({ roomId = 'demo', getToken }) {
                 }, 100);
             });
 
+            const userDisplayName = getName(currentUser);
+            const userColor = `hsl(${Math.floor(Math.random() * 360)}, 80%, 60%)`;
+
             newProvider.configuration.awareness.setLocalStateField('user', {
-                name: `user-${Math.floor(Math.random() * 1000)}`,
-                color: `hsl(${Math.floor(Math.random() * 360)}, 80%, 60%)`,
+                name: userDisplayName,
+                color: userColor,
+                cursor: null,
+                selection: null
             });
+
+            const awarenessHandler = () => {
+                const states = newProvider.configuration.awareness.getStates();
+                const newUsers = new Map();
+
+                states.forEach((state, clientId) => {
+                    if (state.user) {
+                        newUsers.set(clientId, {
+                            id: clientId,
+                            name: state.user.name,
+                            color: state.user.color,
+                            cursor: state.user.cursor,
+                            selection: state.user.selection
+                        });
+                    }
+                });
+
+                setUsers(newUsers);
+            };
+
+            newProvider.configuration.awareness.on('change', awarenessHandler);
 
             if (isMounted) {
                 setProvider(newProvider);
@@ -167,7 +206,7 @@ function Editor({ roomId = 'demo', getToken }) {
                 providerInstance.destroy();
             }
         };
-    }, [roomId, getToken]);
+    }, [roomId, getToken, currentUser]);
 
     useEffect(() => {
         if (!provider) return;
@@ -187,7 +226,15 @@ function Editor({ roomId = 'demo', getToken }) {
             javascript(),
             history(),
             keymap.of([...defaultKeymap, ...historyKeymap, ...yUndoManagerKeymap]),
-            yCollab(ytext, provider.configuration.awareness, { undoManager }),
+            yCollab(ytext, provider.configuration.awareness, {
+                undoManager,
+                showSelection: true,
+                showUser: true,
+                showUserName: true,
+                showUserColor: true,
+                showSelectionText: true,
+                selectionTextMaxLength: 50
+            }),
         ];
     }, [ytext, provider]);
 
@@ -227,28 +274,47 @@ function Editor({ roomId = 'demo', getToken }) {
                     {fileError}
                 </div>
             )}
-            <CodeMirror
-                height="calc(100vh - 55px - 6rem)"
-                extensions={extensions}
-                basicSetup={{
-                    foldGutter: true,
-                    dropCursor: false,
-                    allowMultipleSelections: true,
-                    indentOnInput: true,
-                }}
-                theme={materialDarkInit({
-                    settings: {
-                        caret: "#c6c6c6",
-                        background: "#222222",
-                        gutterBackground: "#202020",
-                        gutterForeground: "#cccccc",
-                        gutterActiveForeground: "#ffffff",
-                        gutterBorder: "#404040",
-                        fontFamily:
-                            'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
-                    },
-                })}
-            />
+            <div style={{ position: 'relative' }}>
+                <CodeMirror
+                    height="calc(100vh - 55px - 6rem)"
+                    extensions={extensions}
+                    basicSetup={{
+                        foldGutter: true,
+                        dropCursor: false,
+                        allowMultipleSelections: true,
+                        indentOnInput: true,
+                    }}
+                    theme={materialDarkInit({
+                        settings: {
+                            caret: "#c6c6c6",
+                            background: "#222222",
+                            gutterBackground: "#202020",
+                            gutterForeground: "#cccccc",
+                            gutterActiveForeground: "#ffffff",
+                            gutterBorder: "#404040",
+                            fontFamily:
+                                'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+                        },
+                    })}
+                />
+
+                {users.size > 0 && (
+                    <div className={styles.userList}>
+                        <div>
+                            Connected Users [{users.size}]
+                        </div>
+                        {Array.from(users.values()).map((user) => (
+                            <div key={user.id} className={styles.userItem}>
+                                <div
+                                    className={styles.userColor}
+                                    style={{ backgroundColor: user.color }}
+                                />
+                                <span className={styles.userName}>{user.name}</span>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
     );
 }
