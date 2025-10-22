@@ -1,6 +1,7 @@
 # Frontend - Codium Collaborative Code Editor
 
 This is the frontend React application for the Codium collaborative code editor.
+During local testing is recommended to use local instance of the server, cause deployed version takes some time on start if not used for a while.
 
 ## Tech Stack
 
@@ -53,15 +54,7 @@ cp .env.local.example .env.local
    - Create a Firebase project at [Firebase Console](https://console.firebase.google.com/)
    - Enable Authentication (Email/Password provider)
    - Enable Firestore Database
-   - Copy your Firebase config to `.env.local`:
-```env
-VITE_FIREBASE_API_KEY=your_api_key
-VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=your_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-VITE_FIREBASE_APP_ID=your_app_id
-```
+   - Copy your Firebase config to `.env.local`
 
 4. **Start the development server:**
 ```bash
@@ -69,6 +62,16 @@ npm run dev
 ```
 
 The application will be available at `http://localhost:5173`
+
+5. **(Optional) Run local backend:**
+It will be faster to use it for testing, but you still able to use remote one
+```env
+VITE_WS_URL=ws://localhost:1234
+```
+```env
+VITE_WS_URL=wss://codium-86dg.onrender.com
+```
+
 
 ## Project Structure
 
@@ -115,28 +118,13 @@ src/
 
 - `npm run dev` - Start development server
 - `npm run build` - Build for production
-- `npm run preview` - Preview production build
 - `npm run lint` - Run ESLint
-
-## Environment Variables
-
-Create a `.env.local` file with the following variables:
-
-```env
-VITE_FIREBASE_API_KEY=your_api_key
-VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=your_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-VITE_FIREBASE_APP_ID=your_app_id
-```
 
 ## Features
 
 - **Real-time collaborative editing** with live synchronization
 - **User authentication** via Firebase Auth
 - **File management** (create, read, update, delete)
-- **Multiple language support** in the code editor
 - **Responsive design** with modern UI
 - **Smooth animations** using Motion library for enhanced UX
 - **Toast notifications** for user feedback
