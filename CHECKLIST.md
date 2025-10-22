@@ -119,11 +119,11 @@
 ## Behavior
 
 ### Startup
-- [ ] Installs without errors (except minor package updates).
+- [x] Installs without errors (except minor package updates).
 - [x] Starts without errors.
 - [x] On load: performs network request or interacts with browser storage.
 - [x] Loading status shown to user.
-- [ ] Reviewers can access resources with minimal setup.
+- [x] Reviewers can access resources with minimal setup.
 - [x] APIs: publicly accessible (anonymous or free signup).
 - [x] If using local server:
   - [x] Must be Node.js.
