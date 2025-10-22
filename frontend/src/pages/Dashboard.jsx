@@ -6,6 +6,7 @@ import Header from '../shared/Header';
 import ProtectedRoute from '../shared/ProtectedRoute';
 import JoinRoomModal from '../components/JoinRoomModal';
 import FileCard from '../components/FileCard';
+import Pagination from '../components/Pagination';
 import CreateFileModal from '../modals/CreateFileModal';
 import {
   createFile,
@@ -14,6 +15,7 @@ import {
   toggleFileSharing
 } from '../services/fileService';
 import styles from '../css/Dashboard.module.css';
+import { IoArrowUpOutline, IoArrowDownOutline, IoRefresh } from "react-icons/io5";
 
 export default function Dashboard() {
   const { currentUser } = useAuth();
@@ -23,13 +25,16 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
+  const [sortOrder, setSortOrder] = useState('desc');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(6);
 
   const loadFiles = useCallback(async () => {
     if (!currentUser) return;
 
     setLoading(true);
     try {
-      const userFiles = await getUserFiles(currentUser.uid);
+      const userFiles = await getUserFiles(currentUser.uid, sortOrder);
       setFiles(userFiles);
     } catch (error) {
       console.error('Error loading files:', error);
@@ -37,7 +42,7 @@ export default function Dashboard() {
     } finally {
       setLoading(false);
     }
-  }, [currentUser, showError]);
+  }, [currentUser, showError, sortOrder]);
 
   useEffect(() => {
     if (currentUser) {
@@ -114,6 +119,29 @@ export default function Dashboard() {
     }
   };
 
+  const toggleOrder = () => {
+    const newSortOrder = sortOrder === 'desc' ? 'asc' : 'desc';
+    setSortOrder(newSortOrder);
+    setCurrentPage(1);
+  };
+
+  const totalPages = Math.ceil(files.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentFiles = files.slice(startIndex, endIndex);
+
+  const goToPage = (page) => {
+    setCurrentPage(page);
+  };
+
+  const goToPreviousPage = () => {
+    setCurrentPage(prev => Math.max(prev - 1, 1));
+  };
+
+  const goToNextPage = () => {
+    setCurrentPage(prev => Math.min(prev + 1, totalPages));
+  };
+
   return (
     <div>
       <Header />
@@ -144,17 +172,33 @@ export default function Dashboard() {
               ) : (
                 <h2> Your Files ({files.length})</h2>
               )}
-              <button
-                className={styles.refreshButton}
-                onClick={loadFiles}
-                title="Refresh Files"
-              >
-                Refresh
-              </button>
+              <div className={styles.headerActions}>
+                <button
+                  className={styles.sortButton}
+                  onClick={toggleOrder}
+                >
+                  <span className={styles.iconWrapper}>
+                    {sortOrder === 'desc' ? <IoArrowDownOutline /> : <IoArrowUpOutline />}
+                  </span>
+                  Sort
+                </button>
+                <button
+                  className={styles.refreshButton}
+                  onClick={loadFiles}
+                  title="Refresh Files"
+                >
+                  <span className={styles.iconWrapper}>
+                    <IoRefresh />
+                  </span>
+                  Refresh
+                </button>
+              </div>
             </div>
 
             {loading ? (
-              <div className={styles.loading}>Loading files...</div>
+              <div className={styles.loading}>
+                <div className={styles.ldsroller}><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+              </div>
             ) :
               <>
                 {files.length === 0 ? (
@@ -162,17 +206,27 @@ export default function Dashboard() {
                     <p>No files yet. Create your first file to get started!</p>
                   </div>
                 ) : (
-                  <div className={styles.filesGrid}>
-                    {files.map((file) => (
-                      <FileCard
-                        key={file.id}
-                        file={file}
-                        onEdit={handleEditFile}
-                        onToggleSharing={handleToggleSharing}
-                        onDelete={handleDeleteFile}
-                      />
-                    ))}
-                  </div>
+                  <>
+                    <div className={styles.filesGrid}>
+                      {currentFiles.map((file) => (
+                        <FileCard
+                          key={file.id}
+                          file={file}
+                          onEdit={handleEditFile}
+                          onToggleSharing={handleToggleSharing}
+                          onDelete={handleDeleteFile}
+                        />
+                      ))}
+                    </div>
+                    
+                    <Pagination
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      onPageChange={goToPage}
+                      onPreviousPage={goToPreviousPage}
+                      onNextPage={goToNextPage}
+                    />
+                  </>
                 )}
               </>
             }

@@ -21,6 +21,16 @@ function Header() {
     }
   };
 
+  const getName = (user) => {
+    if (!user) return 'User';
+    
+    return user.displayName || 
+           user.email || 
+           user.providerData?.[0]?.displayName ||
+           user.providerData?.[0]?.email ||
+           'User';
+  };
+
   return (  
     <header className={styles.mainHeader}>
       <Link to="/">
@@ -31,7 +41,7 @@ function Header() {
         {currentUser ? (
           <div className={styles.navLinks}>
             <span>
-              Welcome, {currentUser.email}
+              Welcome, {getName(currentUser)}
             </span>
             <NavLink 
               to="/dashboard"

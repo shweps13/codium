@@ -38,17 +38,17 @@ export const createFile = async (userId, fileName, content = '') => {
   }
 };
 
-export const getUserFiles = async (userId) => {
+export const getUserFiles = async (userId, sortOrder = 'desc') => {
   try {
     const q = query(
       collection(db, 'files'),
       where('ownerId', '==', userId),
-      orderBy('createdAt', 'desc')
+      orderBy('createdAt', sortOrder)
     );
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   } catch (error) {
-    console.error('Error getting user files:', error);
+    console.error('Error getting files:', error);
     throw error;
   }
 };
@@ -82,7 +82,7 @@ export const getFileByRoomId = async (roomId) => {
       throw new Error('File not found');
     }
   } catch (error) {
-    console.error('Error getting file by room ID:', error);
+    console.error('Error getting file:', error);
     throw error;
   }
 };
@@ -124,7 +124,7 @@ export const toggleFileSharing = async (fileId, isShared) => {
     
     await updateDoc(docRef, updateData);
   } catch (error) {
-    console.error('Error toggling file sharing:', error);
+    console.error('Error sharing:', error);
     throw error;
   }
 };

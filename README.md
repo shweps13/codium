@@ -7,6 +7,7 @@
 ## Styling Reference
 - Styles for code window: [Figma community design](https://www.figma.com/community/file/1232205958285599960)
 - Styles for the main screen: [Visily.ai](https://app.visily.ai/projects/816a6f68-b8fc-4c32-b313-94b6d1120f49/boards/2279133)
+- Pure CSS loader: [loading.io](https://loading.io/css/)
 ---
 
 ## Tech Stack

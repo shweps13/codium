@@ -138,7 +138,7 @@ function Editor({ roomId = 'demo', getToken }) {
                             if (contentToLoad) {
                                 ytext.insert(0, contentToLoad);
                             } else {
-                                ytext.insert(0, "// Welcome to Codium Editor\n// Start typing your code here...");
+                                ytext.insert(0, "// Start your code here...");
                             }
                         } catch (error) {
                             console.warn('Error inserting content:', error);

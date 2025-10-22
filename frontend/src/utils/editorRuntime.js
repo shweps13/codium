@@ -20,6 +20,6 @@ provider.configuration.awareness.setLocalStateField('user', {
 if (ytext.length === 0) {
     ytext.insert(
         0,
-        "// Pew Pew Pew"
+        "// Start your code here..."
     );
 }

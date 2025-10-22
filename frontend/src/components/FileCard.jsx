@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import dashboardStyles from '../css/Dashboard.module.css';
+import styles from '../css/Dashboard.module.css';
 import DeleteFileModal from '../modals/DeleteFileModal';
 import { useToast } from '../hooks/useToast';
-import deleteIcon from '../assets/delete.svg';
+import { RiDeleteBinLine } from "react-icons/ri";
 
 // eslint-disable-next-line no-unused-vars
 import { motion } from 'motion/react';
@@ -37,7 +37,7 @@ export default function FileCard({
     return (
         <>
             <motion.div
-                className={dashboardStyles.fileCard}
+                className={styles.fileCard}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
@@ -47,49 +47,51 @@ export default function FileCard({
                 }}
                 whileTap={{ scale: 0.98 }}
             >
-                <div className={dashboardStyles.fileHeader}>
-                    <h3 className={dashboardStyles.fileName}>{file.name}</h3>
-                    <div className={dashboardStyles.fileActions}>
+                <div className={styles.fileHeader}>
+                    <h3 className={styles.fileName}>{file.name}</h3>
+                    <div className={styles.fileActions}>
                         <button
-                            className={dashboardStyles.actionButton}
+                            className={styles.actionButton}
                             onClick={() => onEdit(file)}
                             title="Edit File"
                         >
                             Edit
                         </button>
                         <button
-                            className={dashboardStyles.actionButton}
+                            className={styles.actionButton}
                             onClick={() => onToggleSharing(file)}
                             title={file.isShared ? 'Stop Sharing' : 'Share File'}
                         >
                             {file.isShared ? 'Unshare' : 'Share'}
                         </button>
                         <button
-                            className={dashboardStyles.actionButton}
+                            className={styles.actionButton}
                             onClick={() => setShowDeleteModal(true)}
                             title="Delete File"
                         >
-                            <img width={15} height={15} src={deleteIcon} alt="Delete" className={dashboardStyles.deleteIcon} />
+                            <span className={styles.iconWrapperTop}>
+                                <RiDeleteBinLine size={16} />
+                            </span>
                         </button>
                     </div>
                 </div>
 
-                <div className={dashboardStyles.fileInfo}>
-                    <div className={dashboardStyles.contentPreview}>
-                        <p className={dashboardStyles.previewLabel}>Preview:</p>
-                        <p className={dashboardStyles.previewText}>
+                <div className={styles.fileInfo}>
+                    <div className={styles.contentPreview}>
+                        <p className={styles.previewLabel}>Preview:</p>
+                        <p className={styles.previewText}>
                             {getContentPreview(file.content)}
                         </p>
                     </div>
                     {file.isShared && (
                         <div
-                            className={dashboardStyles.sharingInfo}
+                            className={styles.sharingInfo}
                         >
-                            <p className={dashboardStyles.roomId}>
+                            <p className={styles.roomId}>
                                 Room ID: {file.roomId}
                             </p>
                             <button
-                                className={dashboardStyles.copyButton}
+                                className={styles.copyButton}
                                 onClick={() => copyRoomId(file.roomId)}
                             >
                                 Copy Room ID
